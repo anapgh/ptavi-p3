@@ -26,6 +26,7 @@ class ChistesHandler(ContentHandler):
         if name == 'chiste':
             # De esta manera tomamos los valores de los atributos
             self.calificacion = attrs.get('calificacion', "")
+            print(self.calificacion)
         elif name == 'pregunta':
             print("hola")
             self.inPregunta = True
@@ -49,8 +50,10 @@ class ChistesHandler(ContentHandler):
         """
         if self.inPregunta:
             self.pregunta = self.pregunta + char
+            print(self.pregunta)
         if self.inRespuesta:
             self.respuesta += char
+            print(self.respuesta)
 
 if __name__ == "__main__":
     """
