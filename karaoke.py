@@ -9,8 +9,9 @@ from xml.sax import make_parser
 import smallsmilhandler
 import sys
 import json
+import urllib.request
 
- 
+
 if __name__ == "__main__":
     try:
         if len(sys.argv) != 2 :
@@ -37,7 +38,15 @@ if __name__ == "__main__":
                etiqueta = valor
            else:
                atributos += ("\\" +'t'+ clave + '="' + valor + '"')
+               
+           if clave == 'src' :
+               if valor.startswith("http://"):
+                   urllib.request.urlretrieve(valor)
+                   print("Descargando ... " + valor)
+                            
+
         print(etiqueta + atributos + "\\n")
+        
 
     fichero_json = fichero_smil.replace(".smil",".json")
     with open(fichero_json,"w") as outfile:
