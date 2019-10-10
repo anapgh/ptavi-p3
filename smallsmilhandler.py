@@ -35,16 +35,19 @@ class SmallSMILHandler(ContentHandler):
             
     def get_tags(self):
         return(self.lista)
-              
-
+            
+        
+def manejador(ficherosmil):
+    parser = make_parser()
+    cHandler = SmallSMILHandler()
+    parser.setContentHandler(cHandler)
+    parser.parse(open(ficherosmil))
+    lista = cHandler.get_tags()
+    print(lista)
 
 if __name__ == "__main__":
     """
     Programa principal
     """
-    parser = make_parser()
-    cHandler = SmallSMILHandler()
-    parser.setContentHandler(cHandler)
-    parser.parse(open('karaoke.smil'))
-    lista = cHandler.get_tags()
-    print(lista)
+    ficherosmil = 'karaoke.smil'
+    manejador(ficherosmil)
