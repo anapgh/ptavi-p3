@@ -16,6 +16,11 @@ if __name__ == "__main__":
         sys.exit("Usage: python3 karaoke.py file.smil")
         
     ficherosmil = sys.argv[1]
+    comprobacion = ficherosmil.split('.')
+    
+    if comprobacion[1] != ('smil'):
+        sys.exit("Introducido un fichero distinto a .smil")
+    
     
     fichero = open(ficherosmil, 'r')
     datos = fichero.read()
