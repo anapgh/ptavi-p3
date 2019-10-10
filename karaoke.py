@@ -8,26 +8,26 @@ Created on Thu Oct 10 11:43:08 2019
 from xml.sax import make_parser
 import smallsmilhandler
 import sys
+import json
 
  
 if __name__ == "__main__":
     try:
         if len(sys.argv) != 2 :
             sys.exit("Usage: python3 karaoke.py file.smil")
-        
-        fichero = sys.argv[1]
-        comprobacion = fichero.split('.')
-        
+
+        fichero_smil = sys.argv[1]
+        comprobacion = fichero_smil.split('.')
         if comprobacion[1] != ('smil'):
             sys.exit("Introducido un fichero distinto a .smil")
     except:
         sys.exit("Usage: python3 karaoke.py file.smil")
-            
-        
+
+
     parser = make_parser()
     cHandler = smallsmilhandler.SmallSMILHandler()
     parser.setContentHandler(cHandler)
-    parser.parse(open(fichero))
+    parser.parse(open(fichero_smil))
     lista = cHandler.get_tags()
     for elementDict in lista:
         atributos = ''
@@ -38,3 +38,7 @@ if __name__ == "__main__":
            else:
                atributos += ("\\" +'t'+ clave + '="' + valor + '"')
         print(etiqueta + atributos + "\\n")
+
+    fichero_json = fichero_smil.replace(".smil",".json")
+    with open(fichero_json,"w") as outfile:
+        json.dump(lista,outfile)
