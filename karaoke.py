@@ -18,7 +18,10 @@ class KaraokeLocal():
         parser = make_parser()
         cHandler = smallsmilhandler.SmallSMILHandler()
         parser.setContentHandler(cHandler)
-        parser.parse(open(fichero_smil))
+        try:
+            parser.parse(open(fichero_smil))
+        except FileNotFoundError:
+            sys.exit("File not exist")
         self.lista = cHandler.get_tags()
 
 
@@ -55,16 +58,18 @@ class KaraokeLocal():
                         elementDict[clave] = valor
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2 :
+        sys.exit("Usage: python3 karaoke.py file.smil")
+
+    fichero_smil = sys.argv[1]
+    comprobacion = fichero_smil.split('.')
     try:
-        if len(sys.argv) != 2 :
-            sys.exit("Usage: python3 karaoke.py file.smil")
-        fichero_smil = sys.argv[1]
-        comprobacion = fichero_smil.split('.')
         if comprobacion[1] != ('smil'):
             sys.exit("Introducido un fichero distinto a .smil")
-    except:
+    except IndexError:
         sys.exit("Usage: python3 karaoke.py file.smil")
-        
+
+
     fichero_json = 'local.json'
     c = KaraokeLocal(fichero_smil)
     c.__str__()
