@@ -11,6 +11,7 @@ import sys
 import json
 import urllib.request
 
+
 class KaraokeLocal():
     """docstring for ."""
 
@@ -24,41 +25,41 @@ class KaraokeLocal():
             sys.exit("File not exist")
         self.lista = cHandler.get_tags()
 
-
     def __str__(self):
-        for elementDict in self.lista:
-            atributos = ''
-            for atributo in elementDict.items():
-               clave,valor = atributo
-               if clave == 'etiqueta':
-                   etiqueta = valor
-               else:
-                   atributos += ('\\t'+ clave + '="' + valor + '"')
+        salida = ''
+        for elemDict in self.lista:
+            atributos = ""
+            for atributo in elemDict.items():
+                clave, valor = atributo
+                if clave == 'etiqueta':
+                    etiqueta = valor
+                else:
+                    atributos += '\t' + clave + '="' + valor + '"'
 
-            print(etiqueta + atributos + "\\n")
+            salida += etiqueta + atributos + "\n"
+        return(salida)
 
-    def to_json(self,fichero_smil, fichero_json = ''):
+    def to_json(self, fichero_smil, fichero_json=""):
         if not fichero_json:
-            fichero_json = fichero_smil.replace(".smil",".json")
-            with open(fichero_json,"w") as outfile:
-                json.dump(self.lista,outfile, indent = 1)
-        else:
-            return(fichero_json)
+            fichero_json = fichero_smil.replace(".smil", ".json")
+        with open(fichero_json, "w") as outfile:
+            json.dump(self.lista, outfile, indent=1)
 
     def do_local(self):
-        for elementDict in self.lista:
+        for elemDict in self.lista:
             atributos = ''
-            for atributo in elementDict.items():
-               clave,valor = atributo
-               if clave == 'src' :
-                   if valor.startswith("http://"):
+            for atributo in elemDict.items():
+                clave, valor = atributo
+                if clave == 'src':
+                    if valor.startswith("http://"):
                         urllib.request.urlretrieve(valor)
                         print("Descargando ... " + valor)
                         valor = valor.split('/')[-1]
-                        elementDict[clave] = valor
+                        elemDict[clave] = valor
+
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2 :
+    if len(sys.argv) != 2:
         sys.exit("Usage: python3 karaoke.py file.smil")
 
     fichero_smil = sys.argv[1]
@@ -69,11 +70,10 @@ if __name__ == '__main__':
     except IndexError:
         sys.exit("Usage: python3 karaoke.py file.smil")
 
-
     fichero_json = 'local.json'
     c = KaraokeLocal(fichero_smil)
-    c.__str__()
+    print(c)
     c.to_json(fichero_smil)
     c.do_local()
-    c.to_json(fichero_smil)
-    c.__str__()
+    c.to_json(fichero_json)
+    print(c)
