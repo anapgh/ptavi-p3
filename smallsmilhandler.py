@@ -10,7 +10,6 @@ class SmallSMILHandler(ContentHandler):
     def __init__(self):
         self.lista = []
         self.elemDict = {
-
                         "root-layout": ["width", "height", "background-color"],
                         "region": ["id", "top", "left", "right"],
                         "img": ["src", "region", "begin", "dur"],
@@ -34,18 +33,14 @@ class SmallSMILHandler(ContentHandler):
         return(self.lista)
 
 
-def manejador(ficherosmil):
-    parser = make_parser()
-    cHandler = SmallSMILHandler()
-    parser.setContentHandler(cHandler)
-    parser.parse(open(ficherosmil))
-    lista = cHandler.get_tags()
-    return(lista)
-
-
 if __name__ == "__main__":
     """
     Programa principal
     """
     ficherosmil = 'karaoke.smil'
-    manejador(ficherosmil)
+    parser = make_parser()
+    cHandler = SmallSMILHandler()
+    parser.setContentHandler(cHandler)
+    parser.parse(open(ficherosmil))
+    lista = cHandler.get_tags()
+    print(lista)
