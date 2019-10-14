@@ -37,16 +37,16 @@ if __name__ == "__main__":
            if clave == 'etiqueta':
                etiqueta = valor
            else:
-               atributos += ("\\" +'t'+ clave + '="' + valor + '"')
-               
+               atributos += ('\\t'+ clave + '="' + valor + '"')
+
            if clave == 'src' :
                if valor.startswith("http://"):
                    urllib.request.urlretrieve(valor)
                    print("Descargando ... " + valor)
-                            
+                   valor = valor.split('/')[-1]
+                   elementDict[clave] = valor
 
         print(etiqueta + atributos + "\\n")
-        
 
     fichero_json = fichero_smil.replace(".smil",".json")
     with open(fichero_json,"w") as outfile:
